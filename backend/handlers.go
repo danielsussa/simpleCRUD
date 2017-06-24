@@ -13,7 +13,7 @@ func Index(w http.ResponseWriter, r *http.Request) {
 
 func ShowPersons(w http.ResponseWriter, r *http.Request) {
 	person := Persons{
-		Person{Name: "Daniel Kanczuk"},
+		Person{Name: "Daniel Kanczuka"},
 		Person{Name: "Marilia Melo"},
 	}
 
