@@ -13,8 +13,8 @@ func Index(w http.ResponseWriter, r *http.Request) {
 
 func ShowPersons(w http.ResponseWriter, r *http.Request) {
 	person := Persons{
-		Person{Name: "Daniel Kanczuk"},
-		Person{Name: "Marilia Melo"},
+		Person{Name: "Daniel Kanczuk teste"},
+		Person{Name: "Marilia Melo Teste"},
 	}
 
 	if err := json.NewEncoder(w).Encode(person); err != nil {
