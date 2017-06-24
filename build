@@ -1,4 +1,4 @@
 #!/usr/bin/env bash
 
-echo "Building APP!"
+echo git diff last version:HEAD
 make
