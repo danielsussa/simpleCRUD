@@ -1,4 +1,4 @@
 #!/usr/bin/env bash
 
-git git --name-only `git merge-base origin/master HEAD`
+git --name-only `git merge-base origin/master HEAD`
 make
