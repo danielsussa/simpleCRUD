@@ -13,7 +13,7 @@ type Route struct {
 
 type Routes []Route
 
-/////up to date
+/////again!
 var routes = Routes{
 	Route{
 		"Index",
