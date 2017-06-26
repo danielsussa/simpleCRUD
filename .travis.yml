@@ -4,6 +4,8 @@ go:
 - 1.8
 services:
 - docker
+before_script:
+  - mongo mydb_test --eval 'load("db/demo.js")'
 script:
 - "./start"
 after_success: "./merge_script.sh $TRAVIS_PULL_REQUEST"
