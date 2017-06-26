@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 
+echo "Initialization Start!"
 git diff --name-only `git merge-base origin/master HEAD`
 make build
 make run
