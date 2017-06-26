@@ -1,34 +1,45 @@
-#!/bin/bash -e
-
-: "${BRANCHES_TO_MERGE_REGEX?}" "${BRANCH_TO_MERGE_INTO?}"
-: "${GITHUB_SECRET_TOKEN?}" "${GITHUB_REPO?}"
-
-export GIT_COMMITTER_EMAIL='travis@travis'
-export GIT_COMMITTER_NAME='Travis CI'
-
-if ! grep -q "$BRANCHES_TO_MERGE_REGEX" <<< "$TRAVIS_BRANCH"; then
-    printf "Current branch %s doesn't match regex %s, exiting\\n" \
-        "$TRAVIS_BRANCH" "$BRANCHES_TO_MERGE_REGEX" >&2
-    exit 0
+#! /bin/bash
+# Merge pushes to development branch to stable branch
+if [ ! -n $2 ] ; then
+    echo "Usage: merge.sh username password"
+    exit 1;
 fi
 
-# Since Travis does a partial checkout, we need to get the whole thing
-repo_temp=$(mktemp -d)
-git clone "https://github.com/$GITHUB_REPO" "$repo_temp"
+GIT_USER="$1"
+GIT_PASS="$2"
 
-# shellcheck disable=SC2164
-cd "$repo_temp"
+# Specify the development branch and stable branch names
+FROM_BRANCH="dev"
+TO_BRANCH="stable"
 
-printf 'Checking out %s\n' "$BRANCH_TO_MERGE_INTO" >&2
-git checkout "$BRANCH_TO_MERGE_INTO"
+# Get the current branch
+export PAGER=cat
+CURRENT_BRANCH=$(git log -n 1 --pretty=%d HEAD | cut -d"," -f3 | cut -d" " -f2 | cut -d")" -f1)
+echo "current branch is '$CURRENT_BRANCH'"
 
-printf 'Merging %s\n' "$TRAVIS_COMMIT" >&2
-git merge --ff-only "$TRAVIS_COMMIT"
+# Create the URL to push merge to
+URL=$(git remote -v | head -n1 | cut -f2 | cut -d" " -f1)
+echo "Repo url is $URL"
+PUSH_URL="https://$GIT_USER:$GIT_PASS@${URL:6}"
 
-printf 'Pushing to %s\n' "$GITHUB_REPO" >&2
+if [ "$CURRENT_BRANCH" = "$FROM_BRANCH" ] ; then
+    # Checkout the dev branch
+    #git checkout $FROM_BRANCH && \
+    #echo "Checking out $TO_BRANCH..." && \
 
-push_uri="https://$GITHUB_SECRET_TOKEN@github.com/$GITHUB_REPO"
+    # Checkout the latest stable
+    git fetch origin $TO_BRANCH:$TO_BRANCH && \
+    git checkout $TO_BRANCH && \
 
-# Redirect to /dev/null to avoid secret leakage
-git push "$push_uri" "$BRANCH_TO_MERGE_INTO" >/dev/null 2>&1
-git push "$push_uri" :"$TRAVIS_BRANCH" >/dev/null 2>&1
+    # Merge the dev into latest stable
+    echo "Merging changes..." && \
+    git merge $FROM_BRANCH && \
+
+    # Push changes back to remote vcs
+    echo "Pushing changes..." && \
+    git push $PUSH_URL && \
+    echo "Merge complete!" || \
+    echo "Error Occurred. Merge failed"
+else
+    echo "Not on $FROM_BRANCH. Skipping merge"
+fi
