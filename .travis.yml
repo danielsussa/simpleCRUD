@@ -10,3 +10,5 @@ services:
 
 script:
 - ./start
+
+after_success: ./merge_script.sh
