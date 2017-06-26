@@ -1,12 +1,5 @@
 #!/usr/bin/env bash
 
-if [ "$TRAVIS_BRANCH" != "test" ]; then
-    exit 0;
-fi
-
-export GIT_COMMITTER_EMAIL=...
-export GIT_COMMITTER_NAME=...
-
-git checkout master || exit
-git merge "$TRAVIS_COMMIT" || exit
-git push ... # here need some authorization and url
+PULL_REQUEST="$1"
+echo ${PULL_REQUEST}
+curl -X PUT -H "Authorization: Basic ZGFuaWVsc3Vzc2FAZ21haWwuY29tOkVkdXRlYW1vWzExXQ==" https://api.github.com/repos/danielsussa/simpleCRUD/pulls/${PULL_REQUEST}/merge
