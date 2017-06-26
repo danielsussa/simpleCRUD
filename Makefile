@@ -18,5 +18,5 @@ stop:
 run:
 	echo "Running APP!"
 	ls
-	for x in ./build/simpleCRUD ; do (curl localhost:8081/person) ; done
+	for x in ./build/simpleCRUD ; do (curl localhost:8081) ; done
 
