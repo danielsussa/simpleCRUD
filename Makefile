@@ -18,5 +18,7 @@ stop:
 run:
 	echo "Running APP!"
 	ls
-	for x in ./build/simpleCRUD ; do (curl localhost:8081) ; done
+	nohup `./build/simpleCRUD` > /dev/null 2>&1 & echo $! > run.pid
+	curl localhost:8081
+	killall -9 simpleCRUD
 
