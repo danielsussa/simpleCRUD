@@ -17,7 +17,9 @@ stop:
 
 run:
 	echo "Running APP!"
-	docker ps -q --filter ancestor="simple-crud" | xargs -r docker stop
-	docker run -d -p 8080:8081 simple-crud
-	curl localhost:8080
-	docker ps -q --filter ancestor="simple-crud" | xargs -r docker stop
+	ls
+	nohup `./build/simpleCRUD` > /dev/null 2>&1 & echo $! > run.pid
+	sleep 3
+	curl localhost:8081
+	killall -9 simpleCRUD
+
