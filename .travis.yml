@@ -1,17 +1,21 @@
 sudo: required
+
 language: go
+
 go:
 - 1.8
+
 services:
-- docker
-- mongodb
+  - docker
+  - mongodb
+  - elasticsearch
+
 before_script:
   - sleep 15
   - mongo simpleCRUD --eval 'load("db/demo.js")'
+
 script:
-- "./start"
+  - make build
+  - make run
+
 after_success: "./merge_script.sh $TRAVIS_PULL_REQUEST"
-env:
-  global:
-  - secure: QtZoP9UvysO3HKxAcTbCEcL35XpSefnHp4GU1q8nR8h2qkhkGkcn+K9OoQlqP/V5dhbeVMIJxAfb4o49CuyQ4I5aPSwyjthBrbxMuXIzIHHEaXL7LX01cxDNmWlcXAzZaTpUMs7+gGlJVHqc06U5NXnCXzJiNkBn2lqocIDWc/mU+2hKhbCVK2JGkoiQdh1ojr10+Y+sYvNRZiStapCw6L4jgAlQfX+91RiF4vP0DXHyoSCA7hX28OwbE4GeVmlKZEyp1MsmX+ErGNB7VtUp0aweUnHxAxd0Zy8n0uzrDqzozp1U7XjrOYNjhAMvJZAiuJqYbBIblvopQ/zrIjjZ8n97Ega8NenMpDH12tN8mlKQginxSHyWXCCNqOurIXzTPpIP2HDNJGmmpcu8HURp4i5JjcLFlJR9r9PwfmUJlwQr5aFIulYq+FuPZ1mK6u486XSg7Bf5YT1Q3htPeSfuaA15h630tuJ7z7TWXFmja7pUHxOtOr/D7LfGnSZ0rUu9ZjvqoSBdg2matYChX/BLwzZUshuyLRH9cdxITn7RNNOvkoUIYKtiOqxMQ3XTHZ9KMMH3iDEK8wYSOBF50AtDwCQk3JBy5qn/lRp6gqGwFMFSVw3DXyHbvt5FAkVIWZwiZuxkskTvGF6k8Y+vIav3X8d+UFQ+HDDGtmQQ++5lXT8=
-  - secure: GHBg1vIJAgXVfLUQxiBCL3laEl5n2zkmhDE0aBAmaEwKj8eh4AOm4kEqsnFugd7MqA0jBIqro1CSnEDOt2pVKcrmiZEirWrH4A4rznuQ2wBHFeayLTkQRb31ej6NFk0SH+TR/hem1LtV1H3e23MXit60ZKkdR9TntQkFp7yOvODli2tJ2MJc1nat/sJ3DckK68Gkw4A8hjyzG4wTiq+UtOa7LeQ2b8N9lgo8aZA4Xntyl+nUsOhiMgNQjeSDvmZ5cKvNQSgPDDM8Goc5QxnlvHXy8nruMv+zSJCCcOeNL20R54qS3f9ukXN4leTXYDG4aIPJB++0+XrqqqSQ2ChIq7e4NchKfIvT1POnKFMVJoDy+YlhRds/PVO0suesErnpZlilDKAdLM2zX9akfnY14e3ZRGsYTtrqexcJCEeMrVBNeW6q/xDwsiLmASYvQms0Qv0hlgp5oL6bui02mZjOv1SDC6uezjMdOh1zq48gCOevYRXxc3IbIG2k4tDIyEWJJ2xkyY2QfyTB4u1EtWqfH3X4N/xI+ny7zt6KBRMpaDYfcGelzChUSnL1lTeVwpqz0Bdc2/5DI++yLS8JJPKAscsJEAkEDbVMbrLq5zt83aGczwM2ZRM01Nwhu0jBb6RXUSQGy6oRdNoYHFLSIW5iaJdQt/TcoNgzETky8mcZ5D0=
