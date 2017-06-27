@@ -19,7 +19,7 @@ run:
 	echo "Running APP!"
 	ls
 	nohup `./build/simpleCRUD` > /dev/null 2>&1 & echo $! > run.pid
-	sleep 3
-	curl localhost:8081
+	sleep 5
+	curl localhost:8081/person
 	killall -9 simpleCRUD
 
