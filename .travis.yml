@@ -7,7 +7,7 @@ services:
 - mongodb
 before_script:
   - sleep 15
-  - mongo mydb_test --eval 'load("db/demo.js")'
+  - mongo simpleCRUD --eval 'load("db/demo.js")'
 script:
 - "./start"
 after_success: "./merge_script.sh $TRAVIS_PULL_REQUEST"
