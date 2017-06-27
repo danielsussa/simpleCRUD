@@ -6,6 +6,7 @@ services:
 - docker
 - mongodb
 before_script:
+  - sleep 15
   - mongo mydb_test --eval 'load("db/demo.js")'
 script:
 - "./start"
