@@ -13,7 +13,7 @@ before_script:
   - sleep 5
 
 script:
-  - make build
+  - make builds
   - make tests
 
 after_success: "./merge_script.sh $TRAVIS_PULL_REQUEST"
