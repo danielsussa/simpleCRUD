@@ -1,13 +1,13 @@
 package main
 
 import (
-	"log"
-	"net/http"
-	"fmt"
-	"gopkg.in/mgo.v2/bson"
 	"encoding/json"
+	"fmt"
 	"github.com/gorilla/mux"
 	"gopkg.in/mgo.v2"
+	"gopkg.in/mgo.v2/bson"
+	"log"
+	"net/http"
 	"time"
 )
 
@@ -40,7 +40,7 @@ func ShowOnePerson(w http.ResponseWriter, r *http.Request) {
 
 func main() {
 	router := NewRouter()
-	log.Fatal(http.ListenAndServe(":8081", router))
+	log.Fatal(http.ListenAndServe(":8080", router))
 }
 
 func Logger(inner http.Handler, name string) http.Handler {
@@ -75,7 +75,7 @@ func NewRouter() *mux.Router {
 		handler = Logger(handler, route.Name)
 
 		router.
-		Methods(route.Method).
+			Methods(route.Method).
 			Path(route.Pattern).
 			Name(route.Name).
 			Handler(handler)

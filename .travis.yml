@@ -8,14 +8,12 @@ go:
 services:
   - docker
   - mongodb
-  - elasticsearch
 
 before_script:
-  - sleep 15
-  - mongo simpleCRUD --eval 'load("db/demo.js")'
+  - sleep 5
 
 script:
   - make build
-  - make run
+  - make tests
 
 after_success: "./merge_script.sh $TRAVIS_PULL_REQUEST"
