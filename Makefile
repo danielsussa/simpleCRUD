@@ -4,6 +4,7 @@ CMD_TEST=github.com/danielsussa/simpleCRUD/test
 builds:
 	echo "up to date!"
 	go get -v -d ${CMD_APISERVER}
+	go get -v -d ${CMD_TEST}
 	CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o build/simpleCRUD ${CMD_APISERVER}
 	CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o build/smoke-test ${CMD_TEST}
 
