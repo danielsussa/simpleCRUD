@@ -1,10 +1,12 @@
 CMD_APISERVER=github.com/danielsussa/simpleCRUD/backend
+CMD_TEST=github.com/danielsussa/simpleCRUD/test
 
-build:
+builds:
 	echo "up to date!"
 	go get -v -d ${CMD_APISERVER}
+	go get -v -d ${CMD_TEST}
 	CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o build/simpleCRUD ${CMD_APISERVER}
-	docker build -t simple-crud -f Dockerfile .
+	CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o build/smoke-test ${CMD_TEST}
 
 docker:
 	docker build -t simple-crud -f Dockerfile .
@@ -15,11 +17,7 @@ remove:
 stop:
 	docker ps -q --filter ancestor="simple-crud" | xargs -r docker stop
 
-run:
-	echo "Running APP!"
-	ls
-	nohup `./build/simpleCRUD` > /dev/null 2>&1 & echo $! > run.pid
-	sleep 5
-	curl localhost:8081/person
-	killall -9 simpleCRUD
-
+tests:
+	echo "Testing..."
+	go get github.com/danielsussa/go-task-runner
+	go-task-runner
