@@ -10,10 +10,11 @@ services:
   - mongodb
 
 before_script:
-  - make builds
   - sleep 5
 
 script:
+  - make builds
+  - sleep 5
   - make tests
 
 after_success: "./merge_script.sh $TRAVIS_PULL_REQUEST"
