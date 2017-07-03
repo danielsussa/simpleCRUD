@@ -1,4 +1,4 @@
 [
   {"name":"simpleCrud","path":"/build/simpleCRUD","bgMode":true,"timeout":10,"healthCheck":"http://127.0.0.1:8080"},
-  {"name":"oplogSim","path":"/build/test","bgMode":false,"timeout":10}
+  {"name":"oplogSim","path":"/build/smoke-test","bgMode":false,"timeout":10}
 ]
