@@ -5,7 +5,6 @@ builds:
 	echo "up to date!"
 	go get -v -d ${CMD_APISERVER}
 	CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o build/simpleCRUD ${CMD_APISERVER}
-	CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o build/smoke-test ${CMD_TEST}
 
 docker:
 	docker build -t simple-crud -f Dockerfile .
